@@ -1,0 +1,57 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.NUMERIC_STD.ALL;
+USE ieee.std_logic_unsigned.ALL;
+
+ENTITY ULA IS 
+	PORT(a, b 		: IN std_logic_vector(7 DOWNTO 0);
+		  ula_ctrl     	: IN std_logic_vector(2 DOWNTO 0);
+		  ula_result    : OUT std_logic_vector(7 DOWNTO 0);
+		  zero 		: OUT std_logic);
+END ULA;
+
+ARCHITECTURE Behavioral OF ULA IS
+SIGNAL result : std_logic_vector(7 DOWNTO 0);
+SIGNAL test   : std_logic_vector(15 DOWNTO 0);
+BEGIN
+	PROCESS(ula_ctrl, a, b)
+	BEGIN
+		CASE ula_ctrl IS
+			WHEN "000" =>
+				result <= a + b; 
+			WHEN "001" =>
+				result <= a - b;
+			WHEN "100" =>
+				test <= a * b; 
+				result <= test(7 DOWNTO 0);
+			WHEN "010" =>
+				result <= b;
+			WHEN "011" =>
+				result <= a + "00000001";
+			WHEN "110" => 
+				result <= b; 
+			WHEN "101" => 
+				if(b > "11111111") then
+					result <= x"11";
+				else 
+					result <= x"00";
+				end if;
+			WHEN "111" =>
+				IF(a<b) THEN
+					result <= x"01";
+				ELSE
+					result <= x"00";
+				END IF;
+			WHEN OTHERS => result <= a + b;
+		END CASE;
+	END PROCESS;
+	zero <= '1' when result = X"00" ELSE '0';
+	ula_result <= result;
+END Behavioral;
+			
+			
+			
+			
+			
+			

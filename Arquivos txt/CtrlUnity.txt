@@ -1,0 +1,95 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY CtrlUnity IS
+	PORT(opcode : IN std_logic_vector(2 DOWNTO 0);
+		  funct : IN std_logic_vector (2 downto 0);
+		  ulaop : OUT std_logic_vector(2 DOWNTO 0);
+		  mem2reg, branch, readmem, writemem, ula2, writereg, extend, joomp, writereg2 : OUT std_logic);
+END CtrlUnity;
+
+ARCHITECTURE Behavioral OF CtrlUnity IS
+BEGIN
+	PROCESS(opcode)
+	BEGIN
+		CASE opcode IS
+			WHEN "000" => 
+				mem2reg <= '0';
+				ulaop <= funct;
+				branch <= '0';
+				readmem <= '0';
+				writemem <= '0';
+				ula2 <= '1';
+				writereg <= '1';
+				extend <= '1';
+				joomp <= '0';
+				writereg2 <= '0';
+			WHEN "111" => 
+				mem2reg <= '0';
+				ulaop <= "111";
+				branch <= '0';
+				readmem <= '0';
+				writemem <= '0';
+				ula2 <= '0';
+				writereg <= '0';
+				extend <= '1';
+				joomp <= '1';
+				writereg2 <= '0';
+			WHEN "001" =>
+				mem2reg <= '1';
+				ulaop <= "110";
+				branch <= '0';
+				readmem <= '1';
+				writemem <= '0';
+				ula2 <= '0';
+				writereg <= '1';
+				extend <= '1';
+				joomp <= '0';
+				writereg2 <= '0';
+			WHEN "110" => -- li
+				mem2reg <= '0';
+				ulaop <= "110";
+				branch <= '0';
+				readmem <= '0';
+				writemem <= '0';
+				ula2 <= '0';
+				writereg <= '1';
+				extend <= '1';
+				joomp <= '0';
+				writereg2 <= '0';
+			WHEN "010" => 
+				mem2reg <= '0';
+				ulaop <= "010";
+				branch <= '0';
+				readmem <= '0';
+				writemem <= '1';
+				ula2 <= '0';
+				writereg <= '0';
+				extend <= '0';
+				joomp <= '0';
+				writereg2 <= '1';
+			WHEN "011" => 
+				mem2reg <= '0';
+				ulaop <= "101";
+				branch <= '1';
+				readmem <= '0';
+				writemem <= '0';
+				ula2 <= '1';
+				writereg <= '0';
+				extend <= '1';
+				joomp <= '0';
+				writereg2 <= '0';
+			WHEN OTHERS =>
+				mem2reg <= '0';
+				ulaop <= "111";
+				branch <= '0';
+				readmem <= '0';
+				writemem <= '0';
+				ula2 <= '0';
+				writereg <= '0';
+				extend <= '1';
+				joomp <= '0';
+				writereg2 <= '0';
+		END CASE;
+	END PROCESS;
+END Behavioral;
