@@ -1,0 +1,14 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY PortaOR IS
+	Port(
+		A, B: IN std_logic;
+		R : OUT std_logic);
+END PortaOR;
+
+ARCHITECTURE GOR of PortaOR IS
+
+BEGIN
+		R <= A or B;
+END GOR;
